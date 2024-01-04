@@ -1,0 +1,53 @@
+.notification-center {
+  min-width: 32rem;
+
+  .widget {
+    @include floating-widget($padding: 1rem);
+
+    .header {
+      font-size: 1.5rem;
+      margin: .5rem 1rem;
+
+      .label {
+        font-weight: bold;
+      }
+
+      .clear {
+        @include button;
+        padding: .6rem .8rem;
+        border-radius: 100%;
+        font-size: 1.2rem;
+      }
+    }
+
+    .notification-list {
+      min-height: 50rem;
+      @include scrollbar;
+
+      .notification {
+        @include notification;
+        margin: .5rem;
+
+        .content {
+          @include button;
+          margin: .5rem;
+        }
+      }
+
+      .empty {
+        margin-bottom: 5rem;
+
+        .bell {
+          background-image: url($bell);
+          @include icon-image($size: 8rem);
+        }
+
+        .label {
+          font-size: 1.5rem;
+          font-weight: bold;
+          margin: 1rem
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,140 @@
+(defwidget workspaces []
+  (button 
+    :class "workspaces"
+    (box
+      :space-evenly false
+      :spacing 7
+      (for workspace in workspaces
+        (eventbox
+          :cursor "pointer"
+          :halign "center"
+          :valign "center"
+          (button 
+            :onclick "scripts/hyprland workspace ${workspace.id}"
+            :class "indicator ${workspace.id == active.workspace ? "active" : arraylength(workspace.windows) > 0 ? "occupied" : "empty"}"
+          )
+        )
+      )
+    )
+  )
+)
+
+(defwidget active-client []
+  (button
+    :class "active-client"
+    :onclick "eww open --toggle overview"
+    (box
+      :class "app" 
+      :space-evenly false 
+      :spacing 5 
+      (box 
+        :class "icon ${active.class}"
+        :style "background-image: url('${active.icon}')"
+        :visible {active.icon != "null"}
+        :halign "start"
+      )
+      (label 
+        :class "name"
+        :text {active.class != "null" ? active.class : "Desktop ${active.workspace}"}
+        :limit-width 20
+      )
+    )
+  )
+)
+
+(defwidget date-bar []
+  (button 
+    :class "date-bar" 
+    :cursor "pointer" 
+    :onclick "actions info-center"
+    :timeout "300ms"
+    (box
+      :space-evenly false 
+      (clock :name "clock-bar")
+      (separator)
+      (label 
+        :class "today" 
+        :text {formattime(EWW_TIME, "%a, %b %d", "America/Sao_Paulo")}
+      )
+    )
+  )
+)
+
+(defwidget media-bar [] 
+  (button
+    :class "media-bar"
+    :onclick "actions media"
+    :onrightclick "playerctl -p ${mpris.favorite.name} play-pause"
+    :onscroll "echo {} | sed -e 's/up/next/g' -e 's/down/previous/g' | xargs playerctl -p ${mpris.favorite.name}"
+    :visible {mpris.favorite != "{}"}
+    (box
+      :space-evenly false 
+      :spacing 5
+      (box 
+        :class "icon ${mpris.favorite.name}"
+        :style "background-image: url('${mpris.favorite.icon}')"
+      )
+      (label 
+        :class "title" 
+        :text {mpris.favorite.title} 
+        :limit-width 30
+      )
+    )
+  )
+)
+
+(defwidget notification-bar []
+  (eventbox
+    :onhover "eww update message_rev=true"
+    :onhoverlost "eww update message_rev=false"
+    (button
+      :class "notification-bar"
+      :onclick "actions notification-center"
+      :visible {arraylength(notifications.notifications) > 0}
+      (box
+        :space-evenly false
+        (revealer 
+          :transition "slideleft"
+          :reveal {message_rev || arraylength(notifications.popups) > 0}
+          :duration duration
+          (label 
+            :class "summary" 
+            :visible {arraylength(notifications.notifications) > 0}
+            :text {notifications.notifications[0].summary}
+            :limit-width 25
+          )
+        )
+        (box 
+          :class "icon"
+        )
+      )
+    )
+  )
+)
+
+(defwidget network-indicator []
+  (button 
+    :class "network-indicator ${network.status}"
+    {icons.network[network.status]}
+  )
+)
+
+(defwidget volume-indicator []
+  (button
+    :class "volume-indicator ${audio.output.volume}"
+    :onclick "volume toggle"
+    :onscroll "volume {}"
+    {audio.output.volume != "muted" ? icons.audio.volume-high : icons.audio.volume-off}
+  )
+)
+
+(defwidget power-button []
+  (eventbox 
+    :cursor "pointer" 
+    (button 
+      :class "power-button"
+      :onclick "actions menu"
+      {icons.power.shutdown}
+    )
+  )
+)

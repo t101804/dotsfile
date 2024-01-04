@@ -1,0 +1,9 @@
+.media {
+  .player {
+    @include player;
+    @include floating-widget;
+    padding: 0;
+    min-height: 15rem;
+    min-width: 25rem;
+  }
+}

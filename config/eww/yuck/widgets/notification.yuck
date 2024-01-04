@@ -1,0 +1,139 @@
+(defwidget notification [notification floating]
+  (eventbox
+    :class "notification"
+    :onhover {
+      floating ? 
+      "eww update popup=_'${notification.id}' && scripts/notifications pop ${notification.id}" : 
+      "eww update popup='${notification.id}'"
+    }
+    :onhoverlost {
+      floating ? 
+      "scripts/notifications dismiss ${notification.id}" : 
+      "eww update popup=''"
+    }
+    (box
+      :class "content"
+      :space-evenly false 
+      :orientation "v"
+      (box 
+        :class "top ${floating}"
+        :space-evenly false
+        :visible {!floating}
+        (box
+          :halign "start"
+          :space-evenly false
+          :spacing 5
+          (box
+            :class "icon ${notification.appName}"
+            :style "background-image: url('${notification.appIcon}')"
+            :visible {notification.appIcon != "null"}
+          )
+          (box
+            :space-evenly false
+            :spacing 10
+            (label :class "app" :text {notification.appName})
+            (box 
+              :space-evenly false
+              :spacing 10
+              :visible {!floating}
+              (separator :visible true)
+              (label 
+                :class "time" 
+                :text {
+                  ;EWW_TIME - notification.time < 79200 ? 
+                  notification.time != "null" ? 
+                  formattime(notification.time, "%R", "America/Sao_Paulo") : "" 
+                  ;formattime(notification.time, "%a, %b %d - %H:%M", "America/Sao_Paulo")
+                } 
+              )
+            )
+          )
+        )
+        (eventbox
+          :class "close button"
+          :cursor "pointer"
+          :halign "end" :hexpand true
+          (button 
+            :class "close"
+            :onclick "scripts/notifications ${floating ? "dismiss" : "close"} ${notification.id}"
+            (label :text "") 
+          )
+        )
+      )
+      (box  
+        :class "data ${notification.appName}"
+        :space-evenly false 
+        :spacing 10
+        (box
+          :class "image ${notification.appName}"
+          :style "background-image: url('${notification.image}')"
+          :valign "center"
+          :halign "center"
+          :hexpand {notification.appName == "Screenshot"}
+          :visible {notification.image != "null"}
+        )
+        (box
+          :orientation "v"
+          :space-evenly false
+          :visible {notification.appName != "Screenshot"}
+          (label
+            :class "summary"
+            :limit-width 40
+            :wrap true
+            :xalign 0
+            :halign "start"
+            :text {notification.summary}
+            :visible {notification.summary != "null"}
+          )
+          (label
+            :class "body"
+            :limit-width 120
+            :wrap true
+            :xalign 0
+            :halign "start"
+            :text {notification.body}
+            :visible {notification.body != "null"}
+          )
+        )
+        (eventbox
+          :class "close button"
+          :cursor "pointer"
+          :valign "start"
+          :halign "end" 
+          :hexpand true
+          :visible {floating && notification.appName != "Screenshot"}
+          (button 
+            :class "close"
+            :onclick "scripts/notifications ${floating ? "dismiss" : "close"} ${notification.id}"
+            (label :text "") 
+          )
+        )
+      )
+      (revealer
+        :reveal {
+          arraylength(notification.actions) != 0 && 
+          (floating ?
+            (popup == "_${notification.id}") : 
+            (popup == notification.id)
+          )
+        }
+        :transition "slidedown"
+        :duration duration
+        (box
+          :class "actions"
+          :spacing 20
+          (for action in {notification.actions}
+            (eventbox 
+              :cursor "pointer"
+              (button 
+                :class "action"
+                :onclick "scripts/notifications action ${notification.id} ${action.id}"
+                {action.label}
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+)

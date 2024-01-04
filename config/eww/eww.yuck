@@ -1,0 +1,102 @@
+(include "yuck/widgets.yuck")
+(include "yuck/windows.yuck")
+(include "yuck/setup.yuck")
+
+(defpoll nightlight      :interval "10h" `scripts/nightlight get`)
+(defpoll powerprofile    :interval "10h" `scripts/powerprofile get`)
+(defpoll theme           :interval "10h" `scripts/theme get`)
+(defpoll date            :interval "5m"  `date +'{"day": "%d", "month": "%m", "year": "%Y"}'`)
+(defpoll uptime          :interval "1m"  `uptime -p | sed -e 's/up //g'`)
+
+(deflisten audio         :initial "{}" `scripts/volume`)
+(deflisten pacman        :initial "{}" `scripts/pacman`)
+(deflisten network       :initial "{}" `scripts/network`)
+(deflisten workspaces    :initial "{}" `scripts/python/hyprland.py`)
+(deflisten weather       :initial "{}" `scripts/python/weather.py`)
+(deflisten notifications :initial "{}" `scripts/python/notifications.py`)
+(deflisten mpris         :initial "{}" `scripts/python/mpris.py`)
+(deflisten positions     :initial "{}" `scripts/python/positions.py`)
+
+(defvar user             "klyn@arch")
+(defvar active           "{}")
+(defvar dock             "{}")
+(defvar apps             "{}")
+(defvar selected         "")
+(defvar popup            "")
+(defvar duration         "300ms")
+(defvar interval         "daily")
+(defvar dock_rev         true)
+(defvar music_rev        false)
+(defvar volume-bar_rev   false)
+(defvar volume_rev       false)
+(defvar menu_rev         false)
+(defvar info-center_rev  false)
+(defvar message_rev      false)
+(defvar noti-center_rev  false)
+(defvar icons '{
+    "audio": {
+      "volume-high": "", 
+      "volume-medium": "", 
+      "volume-low": "", 
+      "volume-off": "", 
+      "microphone": "", 
+      "microphone-off": ""
+    },
+    "network": {
+      "up": "",
+      "down": ""
+    },
+    "power": {
+      "shutdown": "",
+      "reboot": "",
+      "suspend": "",
+      "exit": "" 
+    },
+    "bell": {
+      "true": "",
+      "false": ""
+    },
+    "light": {
+      "on": "",
+      "off": ""
+    },
+    "system": {
+      "memory": "",
+      "temperature": "",
+      "storage": "",
+      "cpu": ""
+    },
+    "media": {
+      "play": "",
+      "pause": "",
+      "stop": "",
+      "next": "",
+      "previous": "",
+      "loop": "",
+      "loop-1": "",
+      "shuffle": ""
+    },
+    "screenshot": {
+      "fullscreen": "",
+      "crop": ""
+    },
+    "power-profile": {
+      "performance": "",
+      "balanced": "",
+      "power-saver": ""
+    },
+    "message": "",
+    "pacman": "",
+    "color-picker": "",
+    "theme": "",
+    "chevron-right": "",
+    "period": "",
+    "circle": "",
+    "launcher": "",
+    "magnifying-glass": "",
+    "music": {
+      "on": "",
+      "off": ""
+    } 
+  }'
+)

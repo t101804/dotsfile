@@ -1,0 +1,32 @@
+#!/bin/bash
+
+THEME=$(gsettings get org.gnome.desktop.interface gtk-theme)
+SCSS="$XDG_CONFIG_HOME/eww/scss/colors.scss"
+EFFECT="--transition-fps 75 --transition-type center --transition-duration 2"
+DARK_COLOR="262626"
+WHITE_COLOR="cacaca"
+
+state() {
+  if [[ $THEME == *'dark'* ]]; then
+    echo 'on'
+  else
+    echo 'off'
+  fi
+}
+
+toggle() {
+  STATE=$(state)
+  if [[ $STATE == 'on' ]]; then
+    sed 's/"dark";/"light";/g' -i $SCSS
+    swww clear $WHITE_COLOR
+  else
+    sed 's/"light";/"dark";/g' -i $SCSS
+    swww clear $DARK_COLOR
+  fi
+
+  import-gsettings toggle
+  eww update theme=$STATE
+}
+
+if [[ $1 == 'toggle' ]]; then toggle; fi
+if [[ $1 == 'get' ]]; then state; fi

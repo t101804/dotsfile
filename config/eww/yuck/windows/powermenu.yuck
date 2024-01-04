@@ -1,0 +1,38 @@
+(defwidget powermenu []
+  (box 
+    :class "powermenu"
+    (box 
+      :class "widget" 
+      :halign "center" 
+      :valign "center" 
+      :spacing 20
+      (btn 
+        :name "shutdown" 
+        :action "systemctl poweroff -i" 
+      )
+      (btn 
+        :name "reboot" 
+        :action "systemctl reboot -i" 
+      )
+      (btn 
+        :name "suspend" 
+        :action "systemctl suspend -i" 
+      )
+      (btn 
+        :name "exit" 
+        :action "hyprctl dispatch exit" 
+      )
+    )
+  )
+)
+
+(defwidget btn [name action]
+  (eventbox 
+    :cursor "pointer"
+    (button 
+      :class name 
+      :onclick action 
+      {icons.power[name]}
+    )
+  )
+)

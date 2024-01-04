@@ -1,0 +1,67 @@
+.info-center {
+  .widget {
+    @include floating-widget($padding: 0);
+
+    .calendar {
+      @include calendar;
+    }
+
+    .date {
+      padding: 1rem 2rem 2rem;
+      @include date($font-size: 7rem);
+    }
+
+    .bottom {
+      border-radius: $radius;
+      padding: 1.5rem;
+      background-color: transparentize($fg-color, 0.95);
+
+      @if $theme =="light" {
+        background-color: transparentize($fg-color, 0.9);
+      }
+
+      .weather {
+        @include widget($padding: 0);
+        margin-top: 1.5rem;
+
+        .city {
+          font-size: 2rem;
+          font-weight: bold;
+          margin-top: 1.5rem;
+        }
+
+        .data {
+          margin: 0 2rem 2rem;
+
+          .current {
+            margin-left: -1.5rem;
+          }
+
+          .icon {
+            @include icon-image($size: 6rem);
+          }
+
+          .description,
+          .temp {
+            font-size: 1.6rem;
+            font-weight: 500;
+          }
+
+          .i {
+            .icon {
+              @include icon-image($size: 2.5rem);
+            }
+
+            .temp {
+              font-size: 1rem;
+            }
+
+            .celcius {
+              font-size: .9rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}

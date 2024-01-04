@@ -1,0 +1,29 @@
+.powermenu {
+  background-color: transparentize($bg-color, 0.7);
+
+  .widget {
+    @include floating-widget;
+
+    .shutdown {
+      color: $red;
+    }
+
+    .reboot {
+      color: $green;
+    }
+
+    .suspend {
+      color: $blue;
+    }
+
+    .exit {
+      color: $purple;
+    }
+  }
+
+  button {
+    @include button;
+    padding: 2.5rem;
+    font-size: 5rem;
+  }
+}

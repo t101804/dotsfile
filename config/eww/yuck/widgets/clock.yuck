@@ -1,0 +1,23 @@
+(defwidget clock []
+  (box
+    :class "clock"
+    :space-evenly false
+    :halign "center"
+    (label 
+      :class "time" 
+      :text {formattime(EWW_TIME, "%H", "America/Sao_Paulo")}
+    )
+    (box 
+      :class "timebox" 
+      :valign "center" 
+      :orientation "v" 
+      (box :class "timebox purple" {icons.circle})
+      (box :class "timebox green" {icons.circle})
+      (box :class "timebox yellow" {icons.circle})
+    )
+    (label 
+      :class "time" 
+      :text {formattime(EWW_TIME, "%M", "America/Sao_Paulo")}
+    )
+  )
+)

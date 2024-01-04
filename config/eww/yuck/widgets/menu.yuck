@@ -1,0 +1,270 @@
+(defwidget profile []
+	(box 
+    :class "profile" 
+    :space-evenly false 
+    :spacing 10
+    (box 
+      :class "image" 
+      :halign "start" 
+      :valign "start"
+    )
+    (box 
+      :orientation "v" 
+      :space-evenly false 
+      :hexpand true 
+      :spacing 15
+      (box 
+        :orientation "v" 
+        (box 
+          :class "info" 
+          :space-evenly false 
+          :orientation "v" 
+          :spacing 5
+          (label :class "name"  :text user :xalign 0)
+          (label :class "uptime" :text "uptime: ${uptime}" :xalign 0)
+        )
+      )
+      (box
+        :halign "end" 
+        :spacing 15
+        (eventbox
+          :cursor "pointer"
+          (button 
+            :class "power" 
+            :onclick "eww open powermenu" 
+            {icons.power.shutdown}
+          )
+        )
+        (eventbox
+          :cursor "pointer"
+          (button 
+            :class "exit" 
+            :onclick "hyprctl dispatch exit" 
+            {icons.power.exit}
+          )
+        )
+      )
+    )
+	)
+)
+
+(defwidget utils_button [icon action css wait] 
+  (eventbox 
+    :cursor "pointer"
+    (button 
+      :class css 
+      :onclick action
+      :timeout wait
+      icon
+    )
+  )
+)
+
+(defwidget utils []
+  (box 
+    :class "utils" 
+    :orientation "v" 
+    :spacing 20
+    (box  
+      :spacing 20
+      :space-evenly false
+      :halign "center"
+      (utils_button 
+        :css "dnd ${notifications.dnd}" 
+        :icon {icons.bell[notifications.dnd]}
+        :action "scripts/notifications toggle"
+        :wait "200ms"
+      )
+      (utils_button 
+        :css "nightlight ${nightlight}"
+        :icon {icons.light[nightlight]}
+        :action "scripts/nightlight toggle"
+        :wait "200ms"
+      )
+      (utils_button 
+        :css "theme ${theme}"
+        :icon {icons.theme}
+        :action "scripts/theme toggle"
+        :wait "200ms"
+      )
+      (utils_button 
+        :css "colorpicker"
+        :icon {icons.color-picker}
+        :action "actions colorpicker"
+        :wait "600ms"
+      )
+    )
+    (box 
+      :spacing 20
+      :space-evenly false
+      :halign "center"
+      (utils_button 
+        :css "screenshot"
+        :icon {icons.screenshot.fullscreen}
+        :action "actions screenshot full"
+        :wait "600ms"
+      )
+      (utils_button 
+        :css "screenshot"
+        :icon {icons.screenshot.crop}
+        :action "actions screenshot crop"
+        :wait "600ms"
+      )
+      (utils_button 
+        :css "update"
+        :icon {icons.pacman}
+        :action "actions update"
+        :wait "600ms"
+      )
+      (utils_button 
+        :css "powerprofile ${powerprofile}"
+        :icon {icons.power-profile[powerprofile]}
+        :action "scripts/powerprofile toggle"
+        :wait "200ms"
+      )
+    )
+  )
+)
+
+(defwidget menu-network []
+  (box 
+    :class "network" 
+    :space-evenly false 
+    :spacing 10
+    (button 
+      :class "icon ${network.status}"
+      {icons.network[network.status]}
+    )
+    (label :class "name" :text {network.name})
+    (box 
+      :halign "end" 
+      :hexpand true 
+      :spacing 10 
+      :space-evenly false
+      (box 
+        :space-evenly false 
+        :spacing 10
+        (label :text "") 
+        (label
+          :text "${round(EWW_NET[network.name].NET_DOWN / 1000000, 2)}MB" 
+          :xalign 0
+        )
+      )
+      (box 
+        :space-evenly false 
+        :spacing 10
+        (label :text "") 
+        (label 
+          :text "${round(EWW_NET[network.name].NET_UP / 1000000, 2)}MB" 
+          :xalign 0
+        )
+      )
+    )
+  )
+)
+
+(defwidget slider [class value action icon]
+  (box 
+    :class class 
+    :space-evenly false
+    :spacing 5
+    (eventbox 
+      :cursor "pointer"
+      (button 
+        :class "icon ${value}"
+        :onclick "${action} toggle"
+        icon
+      )
+    )
+    (eventbox 
+      :cursor "pointer" 
+      :valign "center"
+      :hexpand true
+      (scale
+        :class "scale"
+        :tooltip {value == "muted" ? "Muted" : "${value}%"}
+        :value {value == "muted" ? 0 : value}
+        :min 0 
+        :max 101
+        :onchange "${action} set {}"
+      )
+    )
+    (eventbox 
+      :cursor "pointer"
+      (button 
+        :class "pavucontrol" 
+        :onclick "pavucontrol &" 
+        {icons.chevron-right}
+      )
+    )
+  )
+)
+
+(defwidget system-sliders []
+  (box 
+    :class "sliders"
+    :orientation "v"
+    :spacing 15
+    (slider
+      :class "menu-volume"
+      :value {audio.output.volume}
+      :icon {audio.output.volume == "muted" ? icons.audio.volume-off : icons.audio.volume-high}
+      :action "volume"
+    )
+    (slider
+      :class "menu-mic"
+      :value {audio.input.volume}
+      :icon {audio.input.volume == "muted" ? icons.audio.microphone-off : icons.audio.microphone}
+      :action "volume mic ${audio.input.source}"
+    )
+  )
+)
+
+(defwidget system-progress [data icon css tip] 
+  (box 
+    :class "progress" 
+    (circular-progress
+      :class css
+      :value data
+      :thickness 8
+      :tooltip tip
+      (overlay
+        :valign "center"
+        (label 
+          :class "icon" 
+          :text icon
+        )
+      )
+    )
+  )
+)
+
+(defwidget system-info []
+  (box
+    :class "sys"
+    (system-progress
+      :css "cpu"
+      :tip "CPU ${round(EWW_CPU.avg,0)}%"
+      :data {round(EWW_CPU.avg, 0)} 
+      :icon ""
+    )
+    (system-progress
+      :css "ram"
+      :tip "RAM ${round(EWW_RAM.used_mem / 1000000, 2)}MB"
+      :data {round(EWW_RAM.used_mem_perc, 0)}
+      :icon ""
+    )
+    (system-progress
+      :css "temp"
+      :tip "Temperature ${EWW_TEMPS["AMDGPU_EDGE"]}°C"
+      :data {round(EWW_TEMPS.AMDGPU_EDGE, 0)} 
+      :icon ""
+    )
+    (system-progress
+      :css "disk"
+      :tip "SSD ${round(EWW_DISK["/"].used_perc, 2)}%"
+      :data {round(EWW_DISK["/"].used_perc, 0)}
+      :icon ""
+    )
+  )
+)

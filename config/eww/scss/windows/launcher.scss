@@ -1,0 +1,40 @@
+.launcher {
+  min-width: 38rem;
+  min-height: 44rem;
+
+  .widget {
+    @include floating-widget($padding: 0);
+
+    .search {
+      margin: 2rem;
+
+      .icon {
+        @include button;
+        font-size: 1.2rem;
+        min-width: 4rem;
+        min-height: 2rem;
+      }
+
+      .input {
+        @include button;
+        padding: 1rem;
+        font-weight: 500;
+        caret-color: $fg-color;
+      }
+    }
+
+    .scroll {
+      @include scrollbar;
+      background: $widget-bg;
+      border-radius: $radius;
+
+      .apps {
+        padding: 1.5rem;
+        @include application;
+        &:last-child {
+          margin-bottom: .5rem;
+        }
+      }
+    }
+  }
+}

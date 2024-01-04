@@ -1,0 +1,13 @@
+(defwidget corners []
+  (box
+    :class "corners"
+    (box
+      :class "corners left"
+      :halign "start"
+    )
+    (box
+      :class "corners right"
+      :halign "end"
+    )
+  )
+)

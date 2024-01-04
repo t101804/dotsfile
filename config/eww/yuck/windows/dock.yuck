@@ -1,0 +1,49 @@
+(defwidget dock [] 
+  (eventbox
+    :class "dock"
+    :onhover "eww update dock_rev=true"
+    :onhoverlost "eww update dock_rev=false"
+    (revealer
+      :reveal {dock_rev || active.class == "null"}
+      :transition "slideup"
+      :duration duration
+      (box 
+        :class "widget" 
+        :halign "center"
+        :space-evenly false
+        (eventbox  
+          :cursor "pointer" 
+          :halign "center" 
+          :valign "center"
+          (button 
+            :class "launcher-button" 
+            :onclick "actions launcher"
+            {icons.launcher}
+          )
+        )
+        (box
+          :class "favorite"
+          (for i in {dock.favorite}
+            (application 
+              :app i 
+              :simple true
+            )
+          )
+        )
+        (box 
+          :class "div" 
+          :visible {arraylength(dock.impostor) > 0 && arraylength(dock.favorite) > 0}
+        )
+        (box
+          :class "impostor"
+          (for i in {dock.impostor}
+            (application 
+              :app i 
+              :simple true
+            )
+          )
+        )
+      )
+    )
+  )
+)

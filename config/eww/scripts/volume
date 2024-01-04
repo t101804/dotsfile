@@ -1,0 +1,16 @@
+#!/bin/bash
+
+mic_source=$(pamixer --list-sources | awk '/GENERAL WEBCAM Mono/ {print $1}')
+audio_source=$(pamixer --list-sources | awk '/Controller Analog Stereo/ {print $1}')
+
+audio=$(pamixer --get-volume-human | tr -d '%')
+microphone=$(pamixer --source $mic_source --get-volume-human | tr -d '%')
+
+echo '{ "output": { "volume": "'"$audio"'", "source": "'"$audio_source"'" }, "input": { "volume": "'"$microphone"'", "source": "'"$mic_source"'" }}'
+
+pactl subscribe | rg --line-buffered "on sink|on source" | while read -r _; do
+  audio=$(pamixer --get-volume-human | tr -d '%')
+  microphone=$(pamixer --source $mic_source --get-volume-human | tr -d '%')
+
+  echo '{ "output": { "volume": "'"$audio"'", "source": "'"$audio_source"'" }, "input": { "volume": "'"$microphone"'", "source": "'"$mic_source"'" }}'
+done

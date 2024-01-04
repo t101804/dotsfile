@@ -1,0 +1,43 @@
+(defwidget launcher []
+  (box
+    :class "launcher"
+    (box
+      :class "widget"
+      :orientation "v"
+      :space-evenly false
+      (box
+        :class "search"
+        :space-evenly false
+        :hexpand true
+        :spacing 15
+        (label 
+          :text {icons.magnifying-glass} 
+          :class "icon"
+        )
+        (input
+          :class "input"
+          :hexpand true
+          :onchange "scripts/apps query {}"
+          :onaccept "actions launcher open ${apps[0].id}"
+        )
+      )
+      (scroll 
+        :class "scroll"
+        :vscroll true
+        :vexpand true
+        (box 
+          :class "apps"
+          :orientation "v"
+          :space-evenly false 
+          :spacing 10
+          (for i in apps
+            (application 
+              :app i 
+              :simple false
+            )
+          )
+        )
+      )
+    )
+  )
+)

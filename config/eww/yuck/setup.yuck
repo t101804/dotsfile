@@ -1,0 +1,156 @@
+(defwindow bar
+  :monitor 0
+  :stacking "bg"
+  :exclusive false
+  :geometry 
+    (geometry 
+      :width "100%" 
+      :height "50px" 
+      :anchor "center top"
+    )
+  (bar)
+)
+
+(defwindow corners
+  :stacking "fg"
+  :monitor 0
+  :geometry 
+    (geometry 
+      :y "42px" 
+      :width "100%"
+      :anchor "top center"
+    )
+  (corners)  
+)
+
+(defwindow desktop
+  :monitor 0
+  :stacking "bg"
+  :geometry 
+    (geometry 
+      :anchor "center"
+    )
+  (desktop)
+)
+
+(defwindow info-center
+  :monitor 0
+  :stacking "fg"
+  :geometry 
+    (geometry 
+      :anchor "center left"
+      :width "5px"
+    )
+  (info-center)
+)
+
+(defwindow notification-center
+  :monitor 0
+  :stacking "fg"
+  :geometry 
+    (geometry 
+      :anchor "center right"
+      :width "5px"
+    )
+  (notification-center)
+)
+
+(defwindow launcher
+  :monitor 0
+  :stacking "overlay"
+  :focusable true
+  :geometry (geometry :anchor "center")
+  (box
+    (eventbox
+      :onclick "actions launcher" 
+      (launcher)
+    )
+  )
+)
+
+(defwindow volume
+  :monitor 0
+  :stacking "overlay" 
+  :geometry 
+    (geometry 
+      :anchor "right center"
+      :width "5px"
+    )
+  (volume)
+)
+
+(defwindow menu
+  :monitor 0
+  :stacking "fg"
+  :geometry 
+    (geometry 
+      :y "45px" 
+      :width "40%"
+      :height "5px"
+      :anchor "top center"
+    )
+  (menu)
+)
+
+(defwindow media
+  :monitor 0
+  :stacking "fg"
+  :geometry 
+    (geometry 
+      :y "4%" 
+      :anchor "top center"
+    )
+  (media)
+)
+
+(defwindow notifications
+  :monitor 0
+  :stacking "fg"
+  :geometry 
+    (geometry 
+      :y "45px" 
+      :anchor "top center"
+      :height "1%"
+      :width "1%"
+    )
+  (notifications)
+)
+
+(defwindow powermenu
+  :monitor 0
+  :stacking "overlay"
+  :namespace "eww_powermenu"
+  :geometry 
+    (geometry 
+      :width "100%" 
+      :height "100%" 
+      :anchor "center"
+    )
+  (box
+    (eventbox
+      :onclick "eww open --toggle powermenu" 
+      (powermenu)
+    )
+  )
+)
+
+(defwindow overview
+  :monitor 0
+  :stacking "overlay"
+  :geometry 
+    (geometry 
+      :anchor "center"
+    )
+  (overview)
+)
+
+(defwindow dock
+  :monitor 0
+  :stacking "fg"
+  :geometry 
+    (geometry 
+      :anchor "bottom center"
+      :height "5px"
+    )
+  (dock)
+)

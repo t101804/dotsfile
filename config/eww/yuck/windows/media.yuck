@@ -1,0 +1,9 @@
+(defwidget media []
+  (box 
+    :class "media" 
+    :space-evenly false
+    (for i in {mpris.players}
+      (player :player i)
+    )
+  )
+)

@@ -1,0 +1,29 @@
+(defwidget volume []
+  (revealer 
+    :transition "slideleft"
+    :reveal volume_rev
+    :duration duration
+    (box
+      :class "vol"
+      (overlay
+        (box
+          :class "scale ${audio.output.volume}"
+          (scale
+            :min 0 
+            :max 101
+            :value {audio.output.volume == "muted" ? 0 : audio.output.volume}
+            :orientation "v"
+            :flipped true
+            :onchange "volume set {}"
+          )
+        )
+        (label
+          :halign "center"
+          :valign "end"
+          :text {audio.output.volume == "muted" ? icons.music.off : icons.music.on}
+        )
+      )
+    )
+  )
+)
+

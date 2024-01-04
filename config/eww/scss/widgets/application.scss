@@ -1,0 +1,31 @@
+@mixin application($dock: false) {
+  .application {
+    button {
+      @include button;
+      padding: 1rem;
+
+      @if $dock {
+        @include button($flat: true);
+        padding: .5rem;
+      }
+
+      .icon {
+        @include icon-image($size: 4rem);
+
+        @if $dock {
+          @include icon-image($size: 3.5rem);
+        }
+      }
+
+      .name {
+        font-size: 1.1rem;
+        font-weight: 500;
+      }
+
+      .description {
+        color: transparentize($fg-color, 0.2);
+      }
+
+    }
+  }
+}

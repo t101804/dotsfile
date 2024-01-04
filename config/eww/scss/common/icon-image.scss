@@ -1,0 +1,7 @@
+@mixin icon-image($size: 1.5rem) {
+  min-width: $size;
+  min-height: $size;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}

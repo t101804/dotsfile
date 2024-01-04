@@ -1,0 +1,105 @@
+(defwidget calendar-info-center []
+  (box 
+    :class "calendar"
+    (calendar 
+      :day {date.day}
+      :month {date.month}
+      :year {date.year})
+  )
+)
+
+(defwidget clock-info-center []
+  (box
+    :class "date"
+    :space-evenly false
+    :orientation "v"
+    (clock)
+    (label 
+      :class "today" 
+      :text {formattime(EWW_TIME, "%A, %B %d", "America/Sao_Paulo")}
+    )
+  )
+)
+
+(defwidget weather []
+  (box 
+    :class "weather" 
+    :orientation "v" 
+    :space-evenly false
+    (label 
+      :class "city" 
+      :text {weather.city}
+      :halign "center"
+    )
+    (box 
+      :class "data" 
+      :space-evenly false 
+      :orientation "v"
+      (box
+        :class "current"
+        :space-evenly false
+        (box 
+          :class "icon" 
+          :style "background-image: url('${weather.current.icon}')"
+        )
+        (box 
+          :space-evenly false
+          :valign "center"
+          :hexpand true
+          (box 
+            :orientation "v"
+            :space-evenly false
+            :halign "start"
+            (label :class "description" :text {weather.current.description} :xalign 0)
+            (label :class "humidity" :text "Humidity: ${weather.current.humidity}%" :xalign 0)
+          )
+          (box 
+            :orientation "v"
+            :space-evenly false
+            :hexpand true
+            (box 
+              :space-evenly false 
+              :halign "end" 
+              (label :class "temp" :text "${round(weather.current.temp, 0)}" :xalign 1) 
+              (label :class "celcius" :text "°C" :xalign 1)
+            )
+            (box 
+              :space-evenly false
+              :halign "end"
+              (label :class "feels" :text "Feels like: ${round(weather.current.feels_like, 0)}" :xalign 1)
+              (label :class "celcius" :text "°C" :xalign 1
+              )
+            )
+          )
+        )
+      )
+      (box
+        :class "list"
+        :hexpand true
+        (for i in {weather[interval]}
+          (box
+            :class "i"
+            :orientation "v"
+            :space-evenly false
+            (label 
+              :class "dt" 
+              :text "${formattime(i.dt, interval == "daily" ? "%a" : "%H:%M", "America/Sao_Paulo")}"
+            )
+            (button 
+              :class "icon" 
+              :style "background-image: url('${i.icon}')"
+              :tooltip {i.description}
+              :onclick {interval == "daily" ? "eww update interval=hourly" : "eww update interval=daily"}
+            )
+            (box 
+              :space-evenly false
+              :halign "center"
+              (label :class "temp" :text {round(interval == "daily" ? i.temp_max : i.temp, 0)})
+              (label :class "celcius" :text "°C")
+            )
+          )
+        )
+      )
+    )
+  )
+)
