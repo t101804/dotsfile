@@ -3,7 +3,7 @@
     border-radius: 0px;
     font-family: "JetBrainsMono Nerd Font";
     font-weight: bold;
-    font-size: 11px;
+    font-size: 12px;
     min-height: 10px;
 }
 
@@ -11,13 +11,12 @@
 
 window#waybar {
     background: @bar-bg;
-    border-radius: 8px;
 }
 
 tooltip {
     background: @main-bg;
     color: @main-fg;
-    border-radius: 2px;
+    border-radius: 8px;
     border-width: 0px;
 }
 
@@ -25,7 +24,7 @@ tooltip {
     box-shadow: none;
 	text-shadow: none;
     padding: 0px;
-    border-radius: 3px;
+    border-radius: 9px;
     margin-top: 3px;
     margin-bottom: 3px;
     padding-left: 3px;
@@ -39,8 +38,8 @@ tooltip {
     background: @wb-act-bg;
     color: @wb-act-fg;
     margin-left: 3px;
-    padding-left: 12px;
-    padding-right: 12px;
+    padding-left: 13px;
+    padding-right: 13px;
     margin-right: 3px;
     animation: gradient_f 20s ease-in infinite;
     transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
@@ -57,13 +56,13 @@ tooltip {
 
 #taskbar button {
     box-shadow: none;
-  	text-shadow: none;
+	text-shadow: none;
     padding: 0px;
-    border-radius: 7px;
+    border-radius: 9px;
     margin-top: 3px;
     margin-bottom: 3px;
-    padding-left: 7px;
-    padding-right: 7px;
+    padding-left: 3px;
+    padding-right: 3px;
     color: @wb-color;
     animation: gradient_f 20s ease-in infinite;
     transition: all 0.5s cubic-bezier(.55,-0.68,.48,1.682);
@@ -73,8 +72,8 @@ tooltip {
     background: @wb-act-bg;
     color: @wb-act-color;
     margin-left: 3px;
-    padding-left: 12px;
-    padding-right: 12px;
+    padding-left: 13px;
+    padding-right: 13px;
     margin-right: 3px;
     animation: gradient_f 20s ease-in infinite;
     transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
@@ -132,13 +131,13 @@ tooltip {
 }
 
 #custom-r_end {
-    border-radius: 0px 6px 6px 0px;
+    border-radius: 0px 23px 23px 0px;
     margin-right: 9px;
     padding-right: 3px;
 }
 
 #custom-l_end {
-    border-radius: 6px 0px 0px 6px;
+    border-radius: 23px 0px 0px 23px;
     margin-left: 9px;
     padding-left: 3px;
 }
@@ -156,13 +155,13 @@ tooltip {
 }
 
 #custom-rr_end {
-    border-radius: 0px 7px 7px 0px;
+    border-radius: 0px 8px 8px 0px;
     margin-right: 9px;
     padding-right: 3px;
 }
 
 #custom-rl_end {
-    border-radius: 7px 0px 0px 7px;
+    border-radius: 8px 0px 0px 8px;
     margin-left: 9px;
     padding-left: 3px;
 }

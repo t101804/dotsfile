@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 # wallpaper var
-EnableWallDcol=0
+EnableWallDcol=1
 ConfDir="${XDG_CONFIG_HOME:-$HOME/.config}"
 CloneDir="/home/replican/Downloads/hyprdots"
 ThemeCtl="$ConfDir/hypr/theme.ctl"
